@@ -11,6 +11,9 @@ public class QA extends Person {
     @Override
     public void work() {
         Team team = getTeam();
+        if (team == null) {
+            return;
+        }
         List<Story> readyForQA = team.getStories().stream()
                 .filter(story -> story.getStatus() == StoryStatus.DevDone)
                 .limit(2)

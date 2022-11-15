@@ -11,6 +11,9 @@ public class BA extends Person {
     @Override
     public void work() {
         Team team = getTeam();
+        if (team == null) {
+            return;
+        }
         List<Story> availableStories = team.getStories().stream()
                 .filter(story -> story.getStatus() == StoryStatus.InAnalysis)
                 .limit(3)

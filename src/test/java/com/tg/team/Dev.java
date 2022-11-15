@@ -9,7 +9,9 @@ public class Dev extends Person {
 
     @Override
     public void work() {
-        assignedStory.setStatus(StoryStatus.DevDone);
+        if (assignedStory != null) {
+            assignedStory.setStatus(StoryStatus.DevDone);
+        }
     }
 
     public Story getAssignedStory() {

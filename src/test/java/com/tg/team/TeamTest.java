@@ -1,12 +1,12 @@
 package com.tg.team;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TeamTest {
 
@@ -24,6 +24,26 @@ public class TeamTest {
         List<Story> stories = team.getStories();
         assertEquals(1, stories.size());
         assertEquals(StoryStatus.InAnalysis, stories.get(0).getStatus());
+    }
+
+    @Test
+    public void peopleCanWorkNoMatterGetAssignedOrNot() {
+        Team team = new Team("tiangong");
+        BA xixi = new BA("xixi");
+        Dev yanmin = new Dev("yanmin");
+        QA shanshan = new QA("shanshan");
+
+        assertDoesNotThrow(xixi::work);
+        assertDoesNotThrow(yanmin::work);
+        assertDoesNotThrow(shanshan::work);
+
+        team.assignMember(xixi);
+        team.assignMember(xixi);
+        team.assignMember(xixi);
+
+        assertDoesNotThrow(xixi::work);
+        assertDoesNotThrow(yanmin::work);
+        assertDoesNotThrow(shanshan::work);
     }
 
     @Test
@@ -140,6 +160,25 @@ public class TeamTest {
 
         StoryStatus status = drd.getStatus();
         assertEquals(StoryStatus.DevDone, status);
+    }
+
+    @Disabled
+    public void shouldThrowExceptionWhenAssignTaskToAWorkingDev() {
+        Team team = new Team("tiangong");
+        BA xixi = new BA("xixi");
+        Dev yanmin = new Dev("yanmin");
+        team.assignMember(xixi);
+        team.assignMember(yanmin);
+
+        Story drd = new Story(1, "drd");
+        team.assignStory(drd);
+
+        xixi.work();
+        Story blackduck = new Story(2, "blackduck");
+        team.assignStory(blackduck);
+
+        Exception exception = assertThrows(Exception.class, xixi::work);
+        assertEquals("insufficient bandwidth", exception.getMessage());
     }
 
     @Test
