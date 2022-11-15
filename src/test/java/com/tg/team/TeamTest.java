@@ -163,5 +163,38 @@ public class TeamTest {
         assertEquals(StoryStatus.TestDone, status);
     }
 
+    @Test
+    public void qaCanTestAtMost2CardsOneTime() {
+        Team team = new Team("tiangong");
+        BA xixi = new BA("xixi");
+        Dev yanmin = new Dev("yanmin");
+        Dev taohui = new Dev("taohui");
+        Dev yunlong = new Dev("yunlong");
+        QA shanshan = new QA("shanshan");
+        team.assignMember(xixi);
+        team.assignMember(yanmin);
+        team.assignMember(taohui);
+        team.assignMember(yunlong);
+        team.assignMember(shanshan);
+
+        Story drd = new Story(1, "drd");
+        Story blackduck = new Story(2, "blackduck");
+        Story bug = new Story(3, "bug");
+        team.assignStory(drd);
+        team.assignStory(blackduck);
+        team.assignStory(bug);
+
+        xixi.work();
+        yanmin.work();
+        taohui.work();
+        yunlong.work();
+        shanshan.work();
+
+        List<Story> testFinished = team.getStories().stream()
+                .filter(story -> story.getStatus() == StoryStatus.TestDone)
+                .collect(Collectors.toList());
+        assertEquals(2, testFinished.size());
+    }
+
 
 }
