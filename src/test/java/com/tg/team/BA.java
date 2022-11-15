@@ -14,24 +14,28 @@ public class BA extends Person {
         if (team == null) {
             return;
         }
-        List<Story> availableStories = team.getStories().stream()
+        List<Story> inAnalysisStories = team.getStories().stream()
                 .filter(story -> story.getStatus() == StoryStatus.InAnalysis)
                 .limit(3)
                 .collect(Collectors.toList());
+        inAnalysisStories.forEach(story -> story.setStatus(StoryStatus.ReadForDev));
 
-        availableStories.forEach(story -> story.setStatus(StoryStatus.ReadForDev));
-        List<Dev> availableDevs = team.getMembers().stream().filter(person -> person instanceof Dev && ((Dev) person).getAssignedStory() == null)
+        List<Story> readyForDevStories = team.getStories().stream()
+                .filter(story -> story.getStatus() == StoryStatus.ReadForDev)
+                .collect(Collectors.toList());
+        List<Dev> availableDevs = team.getMembers().stream()
+                .filter(person -> person instanceof Dev && ((Dev) person).getAssignedStory() == null)
                 .map(person -> (Dev)person)
                 .collect(Collectors.toList());
-        if (!availableDevs.isEmpty() && !availableStories.isEmpty()) {
-            int canAssignNum = Math.min(availableDevs.size(), availableStories.size());
-            assignTask(availableDevs, availableStories, canAssignNum);
+        if (!availableDevs.isEmpty() && !readyForDevStories.isEmpty()) {
+            int canAssignNum = Math.min(availableDevs.size(), readyForDevStories.size());
+            assignTask(availableDevs, readyForDevStories, canAssignNum);
         }
     }
 
-    private void assignTask(List<Dev> availableDevs, List<Story> availableStories, int size) {
+    private void assignTask(List<Dev> availableDevs, List<Story> readyForDevStories, int size) {
         for (int i = 0; i < size; i++) {
-            availableDevs.get(i).setAssignedStory(availableStories.get(i));
+            availableDevs.get(i).setAssignedStory(readyForDevStories.get(i));
         }
     }
 }

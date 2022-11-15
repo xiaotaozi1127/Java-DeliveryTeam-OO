@@ -11,6 +11,7 @@ public class Dev extends Person {
     public void work() {
         if (assignedStory != null) {
             assignedStory.setStatus(StoryStatus.DevDone);
+            assignedStory = null;
         }
     }
 

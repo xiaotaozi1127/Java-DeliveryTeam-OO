@@ -162,6 +162,32 @@ public class TeamTest {
         assertEquals(StoryStatus.DevDone, status);
     }
 
+    @Test
+    public void baCanAssignStoryToDevAgainWhenTheyFinishWork() {
+        Team team = new Team("tiangong");
+        BA xixi = new BA("xixi");
+        Dev yanmin = new Dev("yanmin");
+        team.assignMember(xixi);
+        team.assignMember(yanmin);
+
+        Story drd = new Story(1, "drd");
+        Story blackduck = new Story(2, "blackduck");
+        team.assignStory(drd);
+        team.assignStory(blackduck);
+
+        xixi.work();
+        assertEquals(drd, yanmin.getAssignedStory());
+        yanmin.work();
+        assertNull(yanmin.getAssignedStory());
+
+        assertEquals(StoryStatus.DevDone, drd.getStatus());
+
+        xixi.work();
+        assertEquals(blackduck, yanmin.getAssignedStory());
+        yanmin.work();
+        assertEquals(StoryStatus.DevDone, blackduck.getStatus());
+    }
+
     @Disabled
     public void shouldThrowExceptionWhenAssignTaskToAWorkingDev() {
         Team team = new Team("tiangong");
@@ -234,6 +260,4 @@ public class TeamTest {
                 .collect(Collectors.toList());
         assertEquals(2, testFinished.size());
     }
-
-
 }
