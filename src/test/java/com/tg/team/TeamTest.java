@@ -142,5 +142,26 @@ public class TeamTest {
         assertEquals(StoryStatus.DevDone, status);
     }
 
+    @Test
+    public void qaCanTestStoryCard() {
+        Team team = new Team("tiangong");
+        BA xixi = new BA("xixi");
+        Dev yanmin = new Dev("yanmin");
+        QA shanshan = new QA("shanshan");
+        team.assignMember(xixi);
+        team.assignMember(yanmin);
+        team.assignMember(shanshan);
+
+        Story drd = new Story(1, "drd");
+        team.assignStory(drd);
+
+        xixi.work();
+        yanmin.work();
+        shanshan.work();
+
+        StoryStatus status = drd.getStatus();
+        assertEquals(StoryStatus.TestDone, status);
+    }
+
 
 }
