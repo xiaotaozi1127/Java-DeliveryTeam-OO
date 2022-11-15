@@ -124,5 +124,23 @@ public class TeamTest {
         assertNull(yunlong.getAssignedStory());
     }
 
+    @Test
+    public void devCanFinishStoryCard() {
+        Team team = new Team("tiangong");
+        BA xixi = new BA("xixi");
+        Dev yanmin = new Dev("yanmin");
+        team.assignMember(xixi);
+        team.assignMember(yanmin);
+
+        Story drd = new Story(1, "drd");
+        team.assignStory(drd);
+
+        xixi.work();
+        yanmin.work();
+
+        StoryStatus status = drd.getStatus();
+        assertEquals(StoryStatus.DevDone, status);
+    }
+
 
 }

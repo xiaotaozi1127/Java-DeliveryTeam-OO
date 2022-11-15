@@ -13,8 +13,9 @@ public class BA extends Person {
         Team team = getTeam();
         List<Story> availableStories = team.getStories().stream()
                 .filter(story -> story.getStatus() == StoryStatus.InAnalysis)
-                .collect(Collectors.toList())
-                .subList(0, 3);
+                .limit(3)
+                .collect(Collectors.toList());
+
         availableStories.forEach(story -> story.setStatus(StoryStatus.ReadForDev));
         List<Dev> availableDevs = team.getMembers().stream().filter(person -> person instanceof Dev && ((Dev) person).getAssignedStory() == null)
                 .map(person -> (Dev)person)
