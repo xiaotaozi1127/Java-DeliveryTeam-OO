@@ -11,10 +11,17 @@ public class BA extends Person {
     @Override
     public void work() {
         Team team = getTeam();
-        List<Person> members =
-                team.getMembers();
-        List<Story> stories = team.getStories();
-        List<Story> notReady = stories.stream().filter(story -> story.getStatus() == StoryStatus.InAnalysis).collect(Collectors.toList());
-        notReady.forEach(story -> story.setStatus(StoryStatus.ReadForDev));
+        List<Story> availableStories = team.getStories().stream().filter(story -> story.getStatus() == StoryStatus.InAnalysis).collect(Collectors.toList());
+        availableStories.forEach(story -> story.setStatus(StoryStatus.ReadForDev));
+        List<Person> availableDevs = team.getMembers().stream().filter(person -> person instanceof Dev && ((Dev) person).getAssignedStory() == null)
+                .collect(Collectors.toList());
+        if (!availableDevs.isEmpty() && !availableStories.isEmpty()) {
+            assignTask((Dev) availableDevs.get(0), availableStories.get(0));
+        }
+
+    }
+
+    private void assignTask(Dev dev, Story story) {
+        dev.setAssignedStory(story);
     }
 }

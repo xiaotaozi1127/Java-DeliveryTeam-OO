@@ -1,6 +1,8 @@
 package com.tg.team;
 
 public class Dev extends Person {
+    private Story assignedStory;
+
     public Dev(String name) {
         super(name);
     }
@@ -11,6 +13,11 @@ public class Dev extends Person {
     }
 
     public Story getAssignedStory() {
-        return null;
+        return assignedStory;
     }
+
+    public void setAssignedStory(Story assignedStory) {
+        this.assignedStory = assignedStory;
+    }
+
 }

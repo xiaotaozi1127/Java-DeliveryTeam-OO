@@ -34,4 +34,19 @@ public class TeamTest {
         xixi.work();
         assertEquals(StoryStatus.ReadForDev, drd.getStatus());
     }
+
+    @Test
+    public void baShouldBeAbleToAssignStoryToDev() {
+        Team team = new Team("tiangong");
+        BA xixi = new BA("xixi");
+        team.assignMember(xixi);
+        Dev yanmin = new Dev("yanmin");
+        team.assignMember(yanmin);
+        Story drd = new Story(123, "drd");
+        team.assignStory(drd);
+        xixi.work();
+        assertEquals(StoryStatus.ReadForDev, drd.getStatus());
+        Story assignedStory = yanmin.getAssignedStory();
+        assertEquals(drd, assignedStory);
+    }
 }
