@@ -17,4 +17,8 @@ public class Story {
     public void setStatus(StoryStatus status) {
         this.status = status;
     }
+
+    public String getName() {
+        return name;
+    }
 }

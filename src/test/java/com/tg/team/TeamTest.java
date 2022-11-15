@@ -23,4 +23,15 @@ public class TeamTest {
         assertEquals(1, stories.size());
         assertEquals(StoryStatus.InAnalysis, stories.get(0).getStatus());
     }
+
+    @Test
+    public void baShouldBeAbleToPrepareStory() {
+        Team team = new Team("tiangong");
+        BA xixi = new BA("xixi");
+        team.assignMember(xixi);
+        Story drd = new Story(123, "drd");
+        team.assignStory(drd);
+        xixi.work();
+        assertEquals(StoryStatus.ReadForDev, drd.getStatus());
+    }
 }

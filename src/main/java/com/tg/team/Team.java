@@ -19,6 +19,7 @@ public class Team {
 
     public void assignMember(Person person) {
         memberList.add(person);
+        person.setTeam(this);
     }
 
     public void assignStory(Story story) {
