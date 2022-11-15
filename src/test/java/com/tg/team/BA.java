@@ -11,17 +11,23 @@ public class BA extends Person {
     @Override
     public void work() {
         Team team = getTeam();
-        List<Story> availableStories = team.getStories().stream().filter(story -> story.getStatus() == StoryStatus.InAnalysis).collect(Collectors.toList());
+        List<Story> availableStories = team.getStories().stream()
+                .filter(story -> story.getStatus() == StoryStatus.InAnalysis)
+                .collect(Collectors.toList())
+                .subList(0, 3);
         availableStories.forEach(story -> story.setStatus(StoryStatus.ReadForDev));
-        List<Person> availableDevs = team.getMembers().stream().filter(person -> person instanceof Dev && ((Dev) person).getAssignedStory() == null)
+        List<Dev> availableDevs = team.getMembers().stream().filter(person -> person instanceof Dev && ((Dev) person).getAssignedStory() == null)
+                .map(person -> (Dev)person)
                 .collect(Collectors.toList());
         if (!availableDevs.isEmpty() && !availableStories.isEmpty()) {
-            assignTask((Dev) availableDevs.get(0), availableStories.get(0));
+            int canAssignNum = Math.min(availableDevs.size(), availableStories.size());
+            assignTask(availableDevs, availableStories, canAssignNum);
         }
-
     }
 
-    private void assignTask(Dev dev, Story story) {
-        dev.setAssignedStory(story);
+    private void assignTask(List<Dev> availableDevs, List<Story> availableStories, int size) {
+        for (int i = 0; i < size; i++) {
+            availableDevs.get(i).setAssignedStory(availableStories.get(i));
+        }
     }
 }
