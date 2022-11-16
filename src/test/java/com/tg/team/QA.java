@@ -15,7 +15,7 @@ public class QA extends Person {
             return;
         }
         List<Story> readyForQA = team.getStories().stream()
-                .filter(story -> story.getStatus() == StoryStatus.DevDone)
+                .filter(story -> story.getStatus() == StoryStatus.ReadyForQA)
                 .limit(2)
                 .collect(Collectors.toList());
         readyForQA.forEach(story -> story.setStatus(StoryStatus.TestDone));

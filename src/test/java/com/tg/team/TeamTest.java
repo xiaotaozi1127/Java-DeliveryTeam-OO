@@ -94,7 +94,7 @@ public class TeamTest {
     }
 
     @Test
-    public void baShouldWorkWhenStoriesMoreThanDevs() {
+    public void baShouldAssignStoriesToAvailableDevs() {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         Dev yanmin = new Dev("yanmin");
@@ -159,7 +159,7 @@ public class TeamTest {
         yanmin.work();
 
         StoryStatus status = drd.getStatus();
-        assertEquals(StoryStatus.DevDone, status);
+        assertEquals(StoryStatus.ReadyForQA, status);
     }
 
     @Test
@@ -180,12 +180,12 @@ public class TeamTest {
         yanmin.work();
         assertNull(yanmin.getAssignedStory());
 
-        assertEquals(StoryStatus.DevDone, drd.getStatus());
+        assertEquals(StoryStatus.ReadyForQA, drd.getStatus());
 
         xixi.work();
         assertEquals(blackduck, yanmin.getAssignedStory());
         yanmin.work();
-        assertEquals(StoryStatus.DevDone, blackduck.getStatus());
+        assertEquals(StoryStatus.ReadyForQA, blackduck.getStatus());
     }
 
     @Disabled

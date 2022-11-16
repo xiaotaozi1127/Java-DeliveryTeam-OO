@@ -4,7 +4,7 @@ public enum StoryStatus {
     InAnalysis,
     ReadForDev,
     InDev,
-    DevDone,
+    ReadyForQA,
     InQA,
     TestDone
 }
