@@ -1,4 +1,4 @@
-package com.tg.team;
+package com.tg.team.story;
 
 public class Story {
     private final int id;

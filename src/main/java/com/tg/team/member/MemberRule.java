@@ -1,4 +1,6 @@
-package com.tg.team;
+package com.tg.team.member;
+
+import com.tg.team.member.Member;
 
 import java.util.List;
 

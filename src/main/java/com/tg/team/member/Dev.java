@@ -1,4 +1,7 @@
-package com.tg.team;
+package com.tg.team.member;
+
+import com.tg.team.story.Story;
+import com.tg.team.story.StoryStatus;
 
 public class Dev extends Member {
     private Story assignedStory;

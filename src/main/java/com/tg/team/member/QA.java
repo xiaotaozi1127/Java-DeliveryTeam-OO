@@ -1,4 +1,8 @@
-package com.tg.team;
+package com.tg.team.member;
+
+import com.tg.team.story.Story;
+import com.tg.team.story.StoryStatus;
+import com.tg.team.Team;
 
 import java.util.List;
 import java.util.stream.Collectors;

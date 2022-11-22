@@ -1,4 +1,4 @@
-package com.tg.team;
+package com.tg.team.member;
 
 public class MemberRoleExceedException extends Exception {
 }
