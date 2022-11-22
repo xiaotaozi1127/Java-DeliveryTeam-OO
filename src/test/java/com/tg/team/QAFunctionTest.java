@@ -24,7 +24,7 @@ public class QAFunctionTest {
         team.assignMember(yanmin);
         team.assignMember(shanshan);
 
-        Story drd = new Story(1, "drd");
+        Story drd = new Story("drd");
         team.assignStory(drd);
 
         xixi.work();
@@ -49,9 +49,9 @@ public class QAFunctionTest {
         team.assignMember(yunlong);
         team.assignMember(shanshan);
 
-        Story drd = new Story(1, "drd");
-        Story blackduck = new Story(2, "blackduck");
-        Story bug = new Story(3, "bug");
+        Story drd = new Story("drd");
+        Story blackduck = new Story("blackduck");
+        Story bug = new Story("bug");
         team.assignStory(drd);
         team.assignStory(blackduck);
         team.assignStory(bug);

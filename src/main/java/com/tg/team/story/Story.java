@@ -1,12 +1,10 @@
 package com.tg.team.story;
 
 public class Story {
-    private final int id;
     private final String name;
     private StoryStatus status = StoryStatus.InAnalysis;
 
-    public Story(int id, String name) {
-        this.id = id;
+    public Story(String name) {
         this.name = name;
     }
 

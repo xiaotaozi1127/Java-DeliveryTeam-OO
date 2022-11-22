@@ -20,7 +20,7 @@ public class DevFunctionTest {
         team.assignMember(xixi);
         team.assignMember(yanmin);
 
-        Story drd = new Story(1, "drd");
+        Story drd = new Story("drd");
         team.assignStory(drd);
 
         xixi.work();
@@ -38,8 +38,8 @@ public class DevFunctionTest {
         team.assignMember(xixi);
         team.assignMember(yanmin);
 
-        Story drd = new Story(1, "drd");
-        Story blackduck = new Story(2, "blackduck");
+        Story drd = new Story("drd");
+        Story blackduck = new Story("blackduck");
         team.assignStory(drd);
         team.assignStory(blackduck);
 

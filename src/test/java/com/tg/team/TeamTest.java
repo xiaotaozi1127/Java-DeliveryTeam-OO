@@ -22,7 +22,7 @@ public class TeamTest {
         List<Member> members = team.getAllMembers();
         assertEquals(1, members.size());
 
-        team.assignStory(new Story(1, "drd"));
+        team.assignStory(new Story("drd"));
         List<Story> stories = team.getStories();
         assertEquals(1, stories.size());
         assertEquals(StoryStatus.InAnalysis, stories.get(0).getStatus());
