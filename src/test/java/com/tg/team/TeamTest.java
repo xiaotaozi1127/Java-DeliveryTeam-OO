@@ -17,7 +17,7 @@ public class TeamTest {
         assertEquals("tiangong", name);
 
         team.assignMember(new BA("xixi"));
-        List<Person> members = team.getAllMembers();
+        List<Member> members = team.getAllMembers();
         assertEquals(1, members.size());
 
         team.assignStory(new Story(1, "drd"));
@@ -290,22 +290,22 @@ public class TeamTest {
         team.assignMember(yunlong);
         team.assignMember(shanshan);
 
-        List<Person> ba = team.getMembers(member -> member instanceof BA);
+        List<Member> ba = team.getMembers(member -> member instanceof BA);
         assertEquals(1, ba.size());
         assertEquals(xixi, ba.get(0));
 
-        List<Person> devs = team.getMembers(member -> member instanceof Dev);
+        List<Member> devs = team.getMembers(member -> member instanceof Dev);
         assertEquals(3, devs.size());
         assertAll("filter devs",
                 () -> assertTrue(devs.contains(yanmin)),
                 () -> assertTrue(devs.contains(taohui)),
                 () -> assertTrue(devs.contains(yunlong)));
 
-        List<Person> qa = team.getMembers(member -> member instanceof QA);
+        List<Member> qa = team.getMembers(member -> member instanceof QA);
         assertEquals(1, qa.size());
         assertEquals(shanshan, qa.get(0));
 
-        List<Person> byName = team.getMembers(member -> member.getName().contains("a"));
+        List<Member> byName = team.getMembers(member -> member.getName().contains("a"));
         assertEquals(3, byName.size());
         assertAll("filter by name",
                 () -> assertTrue(byName.contains(yanmin)),
@@ -316,41 +316,32 @@ public class TeamTest {
     @Test
     public void shouldApplyBaRuleForMaxNumber() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
-        team.addMemberRule(new MemberRule() {
-            @Override
-            public boolean apply(List<Person> memberList, Person newMember) {
-                int ba = newMember instanceof BA ? 1 : 0;
-                for (Person person : memberList) {
-                    if (person instanceof BA) {
-                        ba ++;
-                    }
+        team.addMemberRule((memberList, newMember) -> {
+            int ba = newMember instanceof BA ? 1 : 0;
+            for (Member person : memberList) {
+                if (person instanceof BA) {
+                    ba ++;
                 }
-                return ba <= 2;
             }
+            return ba <= 2;
         });
-        team.addMemberRule(new MemberRule() {
-            @Override
-            public boolean apply(List<Person> memberList, Person newMember) {
-                int qa = newMember instanceof QA ? 1 : 0;
-                for (Person person : memberList) {
-                    if (person instanceof QA) {
-                        qa ++;
-                    }
+        team.addMemberRule((memberList, newMember) -> {
+            int qa = newMember instanceof QA ? 1 : 0;
+            for (Member person : memberList) {
+                if (person instanceof QA) {
+                    qa ++;
                 }
-                return qa <= 1;
             }
+            return qa <= 1;
         });
-        team.addMemberRule(new MemberRule() {
-            @Override
-            public boolean apply(List<Person> memberList, Person newMember) {
-                int dev = newMember instanceof Dev ? 1 : 0;
-                for (Person person : memberList) {
-                    if (person instanceof Dev) {
-                        dev ++;
-                    }
+        team.addMemberRule((memberList, newMember) -> {
+            int dev = newMember instanceof Dev ? 1 : 0;
+            for (Member person : memberList) {
+                if (person instanceof Dev) {
+                    dev ++;
                 }
-                return dev <= 3;
             }
+            return dev <= 3;
         });
         BA xixi1 = new BA("xixi1");
         BA xixi2 = new BA("xixi2");

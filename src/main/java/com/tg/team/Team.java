@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
-    private String name;
-    private final List<Person> memberList = new ArrayList<>();
+    private final String name;
+    private final List<Member> memberList = new ArrayList<>();
     private final List<Story> storyList = new ArrayList<>();
     private final List<MemberRule> ruleList = new ArrayList<>();
 
@@ -17,7 +17,7 @@ public class Team {
         this.name = name;
     }
 
-    public void assignMember(Person person) throws MemberRoleExceedException {
+    public void assignMember(Member person) throws MemberRoleExceedException {
         for (MemberRule rule : ruleList) {
             if (!rule.apply(memberList, person)) {
                 throw new MemberRoleExceedException();
@@ -31,8 +31,8 @@ public class Team {
         storyList.add(story);
     }
 
-    public List<Person> getMembers(MemberFilter filter) {
-       List<Person> filteredResult = new ArrayList<>();
+    public List<Member> getMembers(MemberFilter filter) {
+       List<Member> filteredResult = new ArrayList<>();
 
        memberList.forEach(member -> {
            if (filter.match(member)) {
@@ -42,7 +42,7 @@ public class Team {
        return filteredResult;
     }
 
-    public List<Person> getAllMembers() {
+    public List<Member> getAllMembers() {
         return memberList;
     }
 

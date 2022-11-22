@@ -3,7 +3,7 @@ package com.tg.team;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class QA extends Person {
+public class QA extends Member {
     public QA(String name) {
         super(name);
     }

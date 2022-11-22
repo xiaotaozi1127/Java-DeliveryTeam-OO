@@ -1,10 +1,10 @@
 package com.tg.team;
 
-public abstract class Person {
+public abstract class Member {
     private final String name;
     private Team team;
 
-    public Person(String name) {
+    public Member(String name) {
         this.name = name;
     }
 

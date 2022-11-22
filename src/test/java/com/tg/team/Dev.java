@@ -1,6 +1,6 @@
 package com.tg.team;
 
-public class Dev extends Person {
+public class Dev extends Member {
     private Story assignedStory;
 
     public Dev(String name) {
