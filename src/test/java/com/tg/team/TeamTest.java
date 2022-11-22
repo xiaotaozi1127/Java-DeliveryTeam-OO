@@ -60,6 +60,21 @@ public class TeamTest {
     }
 
     @Test
+    public void baShouldBeAbleToCreateStory() {
+        Team team = new Team("tiangong");
+        BA xixi = new BA("xixi");
+        team.assignMember(xixi);
+
+        Story drd = new Story(1, "drd");
+        xixi.createStory(drd);
+        assertEquals(StoryStatus.ReadForDev, drd.getStatus());
+
+        List<Story> stories = team.getStories();
+        assertEquals(1, stories.size());
+        assertEquals(drd, stories.get(0));
+    }
+
+    @Test
     public void baShouldPrepareAtMost3StoriesOneTime() {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");

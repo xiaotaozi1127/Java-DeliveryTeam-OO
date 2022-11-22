@@ -8,6 +8,15 @@ public class BA extends Person {
         super(name);
     }
 
+    public void createStory(Story story) {
+        Team team = getTeam();
+        if (team == null) {
+            return;
+        }
+        story.setStatus(StoryStatus.ReadForDev);
+        team.assignStory(story);
+    }
+
     @Override
     public void work() {
         Team team = getTeam();
