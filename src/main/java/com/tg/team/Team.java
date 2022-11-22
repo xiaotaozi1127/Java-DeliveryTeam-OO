@@ -7,7 +7,7 @@ public class Team {
     private String name;
     private final List<Person> memberList = new ArrayList<>();
     private final List<Story> storyList = new ArrayList<>();
-
+    private final List<MemberRule> ruleList = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -17,7 +17,12 @@ public class Team {
         this.name = name;
     }
 
-    public void assignMember(Person person) {
+    public void assignMember(Person person) throws MemberRoleExceedException {
+        for (MemberRule rule : ruleList) {
+            if (!rule.apply(memberList, person)) {
+                throw new MemberRoleExceedException();
+            }
+        }
         memberList.add(person);
         person.setTeam(this);
     }
@@ -43,5 +48,9 @@ public class Team {
 
     public List<Story> getStories() {
         return storyList;
+    }
+
+    public void addMemberRule(MemberRule rule) {
+        ruleList.add(rule);
     }
 }

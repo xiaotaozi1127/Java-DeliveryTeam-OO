@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TeamTest {
 
     @Test
-    public void shouldCreateTeamSuccess() {
+    public void shouldCreateTeamSuccess() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         String name = team.getName();
         assertEquals("tiangong", name);
@@ -27,7 +27,7 @@ public class TeamTest {
     }
 
     @Test
-    public void peopleCanWorkNoMatterGetAssignedOrNot() {
+    public void peopleCanWorkNoMatterGetAssignedOrNot() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         Dev yanmin = new Dev("yanmin");
@@ -47,7 +47,7 @@ public class TeamTest {
     }
 
     @Test
-    public void baShouldBeAbleToPrepareStory() {
+    public void baShouldBeAbleToPrepareStory() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         team.assignMember(xixi);
@@ -60,7 +60,7 @@ public class TeamTest {
     }
 
     @Test
-    public void baShouldBeAbleToCreateStory() {
+    public void baShouldBeAbleToCreateStory() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         team.assignMember(xixi);
@@ -75,7 +75,7 @@ public class TeamTest {
     }
 
     @Test
-    public void baShouldPrepareAtMost3StoriesOneTime() {
+    public void baShouldPrepareAtMost3StoriesOneTime() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         team.assignMember(xixi);
@@ -93,7 +93,7 @@ public class TeamTest {
     }
 
     @Test
-    public void baShouldBeAbleToAssignStoryToDev() {
+    public void baShouldBeAbleToAssignStoryToDev() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         Dev yanmin = new Dev("yanmin");
@@ -109,7 +109,7 @@ public class TeamTest {
     }
 
     @Test
-    public void baShouldAssignStoriesToAvailableDevs() {
+    public void baShouldAssignStoriesToAvailableDevs() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         Dev yanmin = new Dev("yanmin");
@@ -134,7 +134,7 @@ public class TeamTest {
     }
 
     @Test
-    public void baShouldWorkWhenStoriesLessThanDevs() {
+    public void baShouldWorkWhenStoriesLessThanDevs() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         Dev yanmin = new Dev("yanmin");
@@ -160,7 +160,7 @@ public class TeamTest {
     }
 
     @Test
-    public void devCanFinishStoryCard() {
+    public void devCanFinishStoryCard() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         Dev yanmin = new Dev("yanmin");
@@ -178,7 +178,7 @@ public class TeamTest {
     }
 
     @Test
-    public void baCanAssignStoryToDevAgainWhenTheyFinishWork() {
+    public void baCanAssignStoryToDevAgainWhenTheyFinishWork() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         Dev yanmin = new Dev("yanmin");
@@ -204,7 +204,7 @@ public class TeamTest {
     }
 
     @Disabled
-    public void shouldThrowExceptionWhenAssignTaskToAWorkingDev() {
+    public void shouldThrowExceptionWhenAssignTaskToAWorkingDev() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         Dev yanmin = new Dev("yanmin");
@@ -223,7 +223,7 @@ public class TeamTest {
     }
 
     @Test
-    public void qaCanTestStoryCard() {
+    public void qaCanTestStoryCard() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         Dev yanmin = new Dev("yanmin");
@@ -244,7 +244,7 @@ public class TeamTest {
     }
 
     @Test
-    public void qaCanTestAtMost2CardsOneTime() {
+    public void qaCanTestAtMost2CardsOneTime() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         Dev yanmin = new Dev("yanmin");
@@ -277,7 +277,7 @@ public class TeamTest {
     }
 
     @Test
-    public void shouldFilterMembersAccordingToCondition() {
+    public void shouldFilterMembersAccordingToCondition() throws MemberRoleExceedException {
         Team team = new Team("tiangong");
         BA xixi = new BA("xixi");
         Dev yanmin = new Dev("yanmin");
@@ -311,5 +311,66 @@ public class TeamTest {
                 () -> assertTrue(byName.contains(yanmin)),
                 () -> assertTrue(byName.contains(taohui)),
                 () -> assertTrue(byName.contains(shanshan)));
+    }
+
+    @Test
+    public void shouldApplyBaRuleForMaxNumber() throws MemberRoleExceedException {
+        Team team = new Team("tiangong");
+        team.addMemberRule(new MemberRule() {
+            @Override
+            public boolean apply(List<Person> memberList, Person newMember) {
+                int ba = newMember instanceof BA ? 1 : 0;
+                for (Person person : memberList) {
+                    if (person instanceof BA) {
+                        ba ++;
+                    }
+                }
+                return ba <= 2;
+            }
+        });
+        team.addMemberRule(new MemberRule() {
+            @Override
+            public boolean apply(List<Person> memberList, Person newMember) {
+                int qa = newMember instanceof QA ? 1 : 0;
+                for (Person person : memberList) {
+                    if (person instanceof QA) {
+                        qa ++;
+                    }
+                }
+                return qa <= 1;
+            }
+        });
+        team.addMemberRule(new MemberRule() {
+            @Override
+            public boolean apply(List<Person> memberList, Person newMember) {
+                int dev = newMember instanceof Dev ? 1 : 0;
+                for (Person person : memberList) {
+                    if (person instanceof Dev) {
+                        dev ++;
+                    }
+                }
+                return dev <= 3;
+            }
+        });
+        BA xixi1 = new BA("xixi1");
+        BA xixi2 = new BA("xixi2");
+        BA xixi3 = new BA("xixi3");
+        team.assignMember(xixi1);
+        team.assignMember(xixi2);
+        assertThrows(MemberRoleExceedException.class, () -> team.assignMember(xixi3));
+
+        QA shanshan1 = new QA("shanshan1");
+        QA shanshan2 = new QA("shanshan2");
+        team.assignMember(shanshan1);
+        assertThrows(MemberRoleExceedException.class, () -> team.assignMember(shanshan2));
+
+        Dev yanmin = new Dev("yanmin");
+        Dev taohui = new Dev("taohui");
+        Dev yunlong = new Dev("yunlong");
+        Dev haotian = new Dev("haotian");
+        team.assignMember(yanmin);
+        team.assignMember(taohui);
+        team.assignMember(yunlong);
+        assertThrows(MemberRoleExceedException.class, () -> team.assignMember(haotian));
     }
 }
