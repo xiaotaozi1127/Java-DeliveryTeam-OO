@@ -17,7 +17,6 @@ public class BA extends Member {
         if (team == null) {
             return;
         }
-        story.setStatus(StoryStatus.ReadForDev);
         team.assignStory(story);
     }
 

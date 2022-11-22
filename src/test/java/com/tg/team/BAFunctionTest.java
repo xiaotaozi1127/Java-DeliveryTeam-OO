@@ -35,7 +35,7 @@ public class BAFunctionTest {
 
         Story drd = new Story(1, "drd");
         xixi.createStory(drd);
-        assertEquals(StoryStatus.ReadForDev, drd.getStatus());
+        assertEquals(StoryStatus.InAnalysis, drd.getStatus());
 
         List<Story> stories = team.getStories();
         assertEquals(1, stories.size());
