@@ -26,7 +26,18 @@ public class Team {
         storyList.add(story);
     }
 
-    public List<Person> getMembers() {
+    public List<Person> getMembers(MemberFilter filter) {
+       List<Person> filteredResult = new ArrayList<>();
+
+       memberList.forEach(member -> {
+           if (filter.match(member)) {
+               filteredResult.add(member);
+           }
+       });
+       return filteredResult;
+    }
+
+    public List<Person> getAllMembers() {
         return memberList;
     }
 

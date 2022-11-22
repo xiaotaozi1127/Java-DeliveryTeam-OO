@@ -32,7 +32,7 @@ public class BA extends Person {
         List<Story> readyForDevStories = team.getStories().stream()
                 .filter(story -> story.getStatus() == StoryStatus.ReadForDev)
                 .collect(Collectors.toList());
-        List<Dev> availableDevs = team.getMembers().stream()
+        List<Dev> availableDevs = team.getAllMembers().stream()
                 .filter(person -> person instanceof Dev && ((Dev) person).getAssignedStory() == null)
                 .map(person -> (Dev)person)
                 .collect(Collectors.toList());

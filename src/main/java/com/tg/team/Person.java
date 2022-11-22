@@ -17,4 +17,8 @@ public abstract class Person {
     }
 
     public abstract void work();
+
+    public String getName() {
+        return name;
+    }
 }

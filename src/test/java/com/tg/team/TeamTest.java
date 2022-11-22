@@ -17,7 +17,7 @@ public class TeamTest {
         assertEquals("tiangong", name);
 
         team.assignMember(new BA("xixi"));
-        List<Person> members = team.getMembers();
+        List<Person> members = team.getAllMembers();
         assertEquals(1, members.size());
 
         team.assignStory(new Story(1, "drd"));
@@ -274,5 +274,42 @@ public class TeamTest {
                 .filter(story -> story.getStatus() == StoryStatus.TestDone)
                 .collect(Collectors.toList());
         assertEquals(2, testFinished.size());
+    }
+
+    @Test
+    public void shouldFilterMembersAccordingToCondition() {
+        Team team = new Team("tiangong");
+        BA xixi = new BA("xixi");
+        Dev yanmin = new Dev("yanmin");
+        Dev taohui = new Dev("taohui");
+        Dev yunlong = new Dev("yunlong");
+        QA shanshan = new QA("shanshan");
+        team.assignMember(xixi);
+        team.assignMember(yanmin);
+        team.assignMember(taohui);
+        team.assignMember(yunlong);
+        team.assignMember(shanshan);
+
+        List<Person> ba = team.getMembers(member -> member instanceof BA);
+        assertEquals(1, ba.size());
+        assertEquals(xixi, ba.get(0));
+
+        List<Person> devs = team.getMembers(member -> member instanceof Dev);
+        assertEquals(3, devs.size());
+        assertAll("filter devs",
+                () -> assertTrue(devs.contains(yanmin)),
+                () -> assertTrue(devs.contains(taohui)),
+                () -> assertTrue(devs.contains(yunlong)));
+
+        List<Person> qa = team.getMembers(member -> member instanceof QA);
+        assertEquals(1, qa.size());
+        assertEquals(shanshan, qa.get(0));
+
+        List<Person> byName = team.getMembers(member -> member.getName().contains("a"));
+        assertEquals(3, byName.size());
+        assertAll("filter by name",
+                () -> assertTrue(byName.contains(yanmin)),
+                () -> assertTrue(byName.contains(taohui)),
+                () -> assertTrue(byName.contains(shanshan)));
     }
 }
