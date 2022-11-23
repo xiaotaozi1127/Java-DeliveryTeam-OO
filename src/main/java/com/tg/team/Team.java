@@ -23,14 +23,14 @@ public class Team {
         this.name = name;
     }
 
-    public void assignMember(Member person) throws MemberRoleExceedException {
+    public void assignMember(Member member) throws MemberRoleExceedException {
         for (MemberRule rule : ruleList) {
-            if (!rule.apply(memberList, person)) {
+            if (!rule.match(memberList, member)) {
                 throw new MemberRoleExceedException();
             }
         }
-        memberList.add(person);
-        person.setTeam(this);
+        memberList.add(member);
+        member.setTeam(this);
     }
 
     public void assignStory(Story story) {

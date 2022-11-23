@@ -12,8 +12,8 @@ public class NewMemberRuleTest {
         Team team = new Team("tiangong");
         team.addMemberRule((memberList, newMember) -> {
             int ba = newMember instanceof BA ? 1 : 0;
-            for (Member person : memberList) {
-                if (person instanceof BA) {
+            for (Member member : memberList) {
+                if (member instanceof BA) {
                     ba ++;
                 }
             }
@@ -33,8 +33,8 @@ public class NewMemberRuleTest {
         Team team = new Team("tiangong");
         team.addMemberRule((memberList, newMember) -> {
             int qa = newMember instanceof QA ? 1 : 0;
-            for (Member person : memberList) {
-                if (person instanceof QA) {
+            for (Member member : memberList) {
+                if (member instanceof QA) {
                     qa ++;
                 }
             }
@@ -52,8 +52,8 @@ public class NewMemberRuleTest {
         Team team = new Team("tiangong");
         team.addMemberRule((memberList, newMember) -> {
             int dev = newMember instanceof Dev ? 1 : 0;
-            for (Member person : memberList) {
-                if (person instanceof Dev) {
+            for (Member member : memberList) {
+                if (member instanceof Dev) {
                     dev ++;
                 }
             }

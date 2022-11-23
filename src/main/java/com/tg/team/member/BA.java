@@ -36,8 +36,8 @@ public class BA extends Member {
                 .filter(story -> story.getStatus() == StoryStatus.ReadForDev)
                 .collect(Collectors.toList());
         List<Dev> availableDevs = team.getAllMembers().stream()
-                .filter(person -> person instanceof Dev && ((Dev) person).getAssignedStory() == null)
-                .map(person -> (Dev)person)
+                .filter(member -> member instanceof Dev && ((Dev) member).getAssignedStory() == null)
+                .map(member -> (Dev)member)
                 .collect(Collectors.toList());
         if (!availableDevs.isEmpty() && !readyForDevStories.isEmpty()) {
             int canAssignNum = Math.min(availableDevs.size(), readyForDevStories.size());
