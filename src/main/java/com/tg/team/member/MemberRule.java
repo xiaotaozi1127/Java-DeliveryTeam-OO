@@ -1,7 +1,7 @@
 package com.tg.team.member;
 
-import java.util.List;
+import com.tg.team.Team;
 
 public interface MemberRule {
-    boolean match(List<Member> memberList, Member newMember);
+    boolean match(Team team, Member newMember);
 }

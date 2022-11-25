@@ -25,7 +25,7 @@ public class Team {
 
     public void assignMember(Member member) throws MemberRoleExceedException {
         for (MemberRule rule : ruleList) {
-            if (!rule.match(memberList, member)) {
+            if (!rule.match(this, member)) {
                 throw new MemberRoleExceedException();
             }
         }
