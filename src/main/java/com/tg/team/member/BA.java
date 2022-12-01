@@ -6,6 +6,7 @@ import com.tg.team.Team;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class BA extends Member {
     public BA(String name) {
@@ -26,11 +27,10 @@ public class BA extends Member {
         if (team == null) {
             return;
         }
-        List<Story> inAnalysisStories = team.getStories().stream()
+        team.getStories().stream()
                 .filter(story -> story.getStatus() == StoryStatus.InAnalysis)
                 .limit(3)
-                .collect(Collectors.toList());
-        inAnalysisStories.forEach(story -> story.setStatus(StoryStatus.ReadForDev));
+                .forEach(story -> story.setStatus(StoryStatus.ReadForDev));
 
         List<Story> readyForDevStories = team.getStories().stream()
                 .filter(story -> story.getStatus() == StoryStatus.ReadForDev)
@@ -46,8 +46,6 @@ public class BA extends Member {
     }
 
     private void assignTask(List<Dev> availableDevs, List<Story> readyForDevStories, int size) {
-        for (int i = 0; i < size; i++) {
-            availableDevs.get(i).setAssignedStory(readyForDevStories.get(i));
-        }
+        IntStream.range(0, size).forEach(i -> availableDevs.get(i).setAssignedStory(readyForDevStories.get(i)));
     }
 }

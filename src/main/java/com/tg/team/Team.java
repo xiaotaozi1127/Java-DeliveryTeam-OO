@@ -8,6 +8,7 @@ import com.tg.team.story.Story;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Team {
     private final String name;
@@ -24,10 +25,8 @@ public class Team {
     }
 
     public void assignMember(Member member) throws MemberRoleExceedException {
-        for (MemberRule rule : ruleList) {
-            if (!rule.match(this, member)) {
-                throw new MemberRoleExceedException();
-            }
+        if (!ruleList.stream().allMatch(r -> r.match(this, member))) {
+            throw new MemberRoleExceedException();
         }
         memberList.add(member);
         member.setTeam(this);
@@ -38,14 +37,7 @@ public class Team {
     }
 
     public List<Member> getMembers(MemberFilter filter) {
-       List<Member> filteredResult = new ArrayList<>();
-
-       memberList.forEach(member -> {
-           if (filter.match(member)) {
-               filteredResult.add(member);
-           }
-       });
-       return filteredResult;
+       return memberList.stream().filter(filter::match).collect(Collectors.toList());
     }
 
     public List<Member> getAllMembers() {
