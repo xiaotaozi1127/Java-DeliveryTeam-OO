@@ -37,7 +37,7 @@ public class BA extends Member {
                 .collect(Collectors.toList());
         List<Dev> availableDevs = team.getAllMembers().stream()
                 .filter(member -> member instanceof Dev)
-                .map(member -> (Dev)member)
+                .map(Dev.class::cast)
                 .filter(dev -> dev.getAssignedStory() == null)
                 .collect(Collectors.toList());
         if (!availableDevs.isEmpty() && !readyForDevStories.isEmpty()) {
